@@ -66,7 +66,9 @@ export async function POST(request: Request) {
     }
 
     try {
-        const reply = await getTelegramReply(text);
+        const reply = await getTelegramReply(text, {
+            chatId: message.chat.id,
+        });
         await sendTelegramMessage(message.chat.id, reply);
     } catch (error) {
         // Acknowledge with 200: Telegram retries non-2xx responses, which

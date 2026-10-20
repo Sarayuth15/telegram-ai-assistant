@@ -25,6 +25,10 @@ describe("getTelegramReply", () => {
         expect(await getTelegramReply("/help@MyBot")).toContain("/help");
     });
 
+    it("reports the chat ID for /myid", async () => {
+        expect(await getTelegramReply("/myid", { chatId: 42 })).toContain("42");
+    });
+
     it("rejects unknown commands without calling the assistant", async () => {
         expect(await getTelegramReply("/nope")).toContain("Unknown command");
     });

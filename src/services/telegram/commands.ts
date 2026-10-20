@@ -16,11 +16,21 @@ export function parseCommand(text: string): string | undefined {
     return match?.[1]?.toLowerCase();
 }
 
-export async function getTelegramReply(text: string): Promise<string> {
+export interface TelegramReplyContext {
+    chatId: number;
+}
+
+export async function getTelegramReply(
+    text: string,
+    context?: TelegramReplyContext,
+): Promise<string> {
     const command = parseCommand(text);
 
     if (command === "start") return START_REPLY;
     if (command === "help") return HELP_REPLY;
+    if (command === "myid" && context) {
+        return `Your chat ID is: ${context.chatId}`;
+    }
     if (command) return "Unknown command. Use /help to see what I can do.";
 
     return getAssistantReply(text);
